@@ -9,11 +9,20 @@ function getProduct(keyword){
   return fetch(url,{
     method: 'GET'
   }).then(response => {
-    
-    console.log(response);
+    if( !response.ok){ // artinya jika responsenya tidak ok (fetch aka gagal jika,jaringannya error)
+      error(response.status)
+    }else{
+      return response.json();
+    }
   })
-    .then(data => displayProduct(data))
-   
+    .then(data => {
+      displayProduct(data)})
+      
+}
+
+function error(err){
+  const list = document.getElementById('box-list-product')
+  list.textContent = 'Pengambilan data Gagal , dengan Status eror ' + err;
 }
 
 function displayProduct(data){
